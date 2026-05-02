@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Vale Chess 3D Career</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="appShell">
+    <header class="topbar glass">
+      <div>
+        <p class="eyebrow">Vale Games</p>
+        <h1>Chess 3D Career</h1>
+      </div>
+      <div class="build-pill" id="buildInfo">Build</div>
+    </header>
+
+    <main id="screens">
+      <section id="profileScreen" class="screen active">
+        <div class="hero-card glass">
+          <div class="logo-orb">VG</div>
+          <h2>Crie seu enxadrista</h2>
+          <p>Escolha nome, avatar e pais para iniciar uma carreira mundial no xadrez 3D.</p>
+          <label>Nome do jogador</label>
+          <input id="playerName" maxlength="18" placeholder="Ex: Jonatan Vale" />
+          <label>Pais</label>
+          <select id="playerCountry"></select>
+          <label>Avatar</label>
+          <div id="avatarGrid" class="avatar-grid"></div>
+          <button id="startCareerBtn" class="primary-btn">Iniciar carreira</button>
+        </div>
+      </section>
+
+      <section id="lobbyScreen" class="screen">
+        <div class="lobby-grid">
+          <article class="player-card glass">
+            <div id="lobbyAvatar" class="big-avatar">♟</div>
+            <div>
+              <p class="eyebrow">Perfil</p>
+              <h2 id="lobbyName">Jogador</h2>
+              <p id="lobbyCountry">Pais</p>
+            </div>
+            <div class="stats-row">
+              <span>Rating <strong id="ratingValue">800</strong></span>
+              <span>Titulos <strong id="titlesValue">0</strong></span>
+              <span>Divisao <strong id="divisionValue">Amador</strong></span>
+            </div>
+          </article>
+
+          <article class="glass panel">
+            <p class="eyebrow">Modo carreira offline</p>
+            <h2>Campeonatos disponiveis</h2>
+            <div id="tournamentList" class="tournament-list"></div>
+          </article>
+
+          <article class="glass panel">
+            <p class="eyebrow">Progresso</p>
+            <h2>Rota do campeao</h2>
+            <ul class="roadmap">
+              <li>Divisao Amador local</li>
+              <li>Divisao Profissional nacional</li>
+              <li>Torneio continental</li>
+              <li>Campeonato mundial</li>
+            </ul>
+            <button id="resetProfileBtn" class="ghost-btn">Resetar perfil</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="screen">
+        <div class="game-layout">
+          <aside class="hud glass">
+            <button id="backLobbyBtn" class="ghost-btn">Voltar ao lobby</button>
+            <p class="eyebrow">Partida</p>
+            <h2 id="matchTitle">Campeonato</h2>
+            <div class="versus">
+              <div>
+                <div id="userAvatarMini" class="mini-avatar">♟</div>
+                <strong id="userNameMini">Voce</strong>
+                <span id="userCountryMini">Brasil</span>
+              </div>
+              <span>VS</span>
+              <div>
+                <div id="botAvatarMini" class="mini-avatar">♚</div>
+                <strong id="botNameMini">CPU</strong>
+                <span id="botCountryMini">Pais</span>
+              </div>
+            </div>
+            <div class="status-box" id="statusBox">Turno: Brancas</div>
+            <button id="resetGameBtn" class="primary-btn">Reiniciar partida</button>
+            <button id="cameraBtn" class="secondary-btn">Girar camera</button>
+            <div class="moves-panel">
+              <strong>Historico</strong>
+              <ol id="moveHistory"></ol>
+            </div>
+          </aside>
+          <div id="canvasWrap" class="canvas-wrap glass">
+            <canvas id="gameCanvas"></canvas>
+            <div id="loadingOverlay">Carregando xadrez 3D...</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
+  <script src="firebaseConfig.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
