@@ -1,0 +1,12 @@
+Vale Chess 3D Career
+Build v0.1.1 - 2026-05-02 09:42 BRT
+
+Correcoes:
+- Substituido chess.js CDN por motor local assets/chess-local.js.
+- Corrigido erro "Unexpected token export" que impedia as pecas de aparecer.
+- Pecas 3D agora nascem na posicao inicial.
+- Mantido tabuleiro 3D, camera, HUD, modo carreira e preparacao Firebase.
+- Build/data/hora atualizadas no jogo.
+
+Proximo passo apos estabilizar:
+- Opcao B: Pacote de geracao IA - Imagem 1 a Imagem 10, uma imagem por vez.

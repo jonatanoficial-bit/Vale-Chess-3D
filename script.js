@@ -1,16 +1,16 @@
 /*
   Vale Chess 3D Career - MVP offline
-  Build: v0.1.0
+  Build: v0.1.1
   Foco: site estatico leve, mobile-first, GitHub Pages, pronto para Firebase no futuro.
 */
 
 const BUILD = {
-  version: "v0.1.0",
-  datetime: "2026-05-02 08:56 BRT",
-  label: "Build v0.1.0 - 2026-05-02 08:56 BRT"
+  version: "v0.1.1",
+  datetime: "2026-05-02 09:42 BRT",
+  label: "Build v0.1.1 - 2026-05-02 09:42 BRT"
 };
 
-const STORAGE_KEY = "vale_chess_3d_career_profile_v010";
+const STORAGE_KEY = "vale_chess_3d_career_profile_v011";
 const AVATARS = ["♟", "♞", "♜", "♛", "♚", "🧠", "🔥", "🌎", "🏆", "⭐"];
 const COUNTRIES = [
   { name: "Brasil", flag: "🇧🇷", continent: "America", rating: 800 },
@@ -212,10 +212,11 @@ function startMatch(tournament) {
 
 function setupChess() {
   if (typeof Chess === "undefined") {
-    $("statusBox").textContent = "Erro: chess.js nao carregou. Confira a internet para CDN.";
+    $("statusBox").textContent = "Erro: motor de xadrez nao carregou. Reenvie os arquivos da build completa.";
     return;
   }
   chess = new Chess();
+  finishMatch._done = false;
   selectedSquare = null;
   legalTargets = [];
   aiThinking = false;
