@@ -1,56 +1,6 @@
-VALE CHESS 3D CAREER - CAMINHOS USADOS NA BUILD v0.2.0
-Build: v0.2.0 - 2026-05-04 10:15 BRT
-
-IMPORTANTE:
-- Os assets visuais NAO estao dentro deste ZIP para manter a build leve.
-- O jogo espera encontrar as imagens exatamente nestes caminhos no GitHub Pages.
-- O manifesto completo original tambem esta neste ZIP: ASSET_PATHS_DO_NOT_RENAME.txt
-
-Caminhos principais usados pelo jogo:
-assets/backgrounds/lobby/lobby_main_16x9.png
-assets/backgrounds/profile/profile_creation_16x9.png
-assets/backgrounds/career/career_dashboard_16x9.png
-assets/backgrounds/results/victory_16x9.png
-assets/backgrounds/results/defeat_16x9.png
-assets/branding/chess_crest_logo.png
-
-Avatares do jogador:
-assets/avatars/player/avatar_01.png
-assets/avatars/player/avatar_02.png
-assets/avatars/player/avatar_03.png
-assets/avatars/player/avatar_04.png
-assets/avatars/player/avatar_05.png
-assets/avatars/player/avatar_06.png
-assets/avatars/player/avatar_07.png
-assets/avatars/player/avatar_08.png
-
-Bandeiras usadas nesta build:
-assets/flags/world/brazil.png
-assets/flags/world/usa.png
-assets/flags/world/mexico.png
-assets/flags/world/canada.png
-assets/flags/world/spain.png
-assets/flags/world/italy.png
-assets/flags/world/uk.png
-assets/flags/world/belgium.png
-assets/flags/world/china.png
-assets/flags/world/japan.png
-assets/flags/world/australia.png
-
-Logos das competicoes:
-assets/competitions/logos/amateur_league_logo.png
-assets/competitions/logos/professional_league_logo.png
-assets/competitions/logos/continental_logo.png
-assets/competitions/logos/world_championship_logo.png
-
-Trofeus:
-assets/competitions/trophies/amateur_trophy.png
-assets/competitions/trophies/professional_trophy.png
-assets/competitions/trophies/continental_trophy.png
-assets/competitions/trophies/world_trophy.png
-
-UI:
-assets/ui/cards/player_card_horizontal.png
-
-
-Build v0.2.2 observa flags em assets/flags/world/<slug>.png e tambem tenta fallbacks assets/flags/<slug>.png. Para paises principais, mantem nomes exatos do manifesto: brazil, usa, uk, uae, saudi_arabia, netherlands, belgium, canada, china, japan, mexico, spain, italy, australia, bahrain, hungary, monaco, qatar, singapore.
+Build v0.2.3 usa os mesmos caminhos do manifesto.
+Bandeiras: assets/flags/world/<slug>.png com fallback assets/flags/<slug>.png
+Avatares: assets/avatars/player/avatar_01.png ... avatar_08.png
+Fundos: assets/backgrounds/...
+Logos: assets/competitions/logos/...
+Trofeus: assets/competitions/trophies/...

@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#08111f" />
-  <title>Vale Chess 3D Career - Build v0.2.1</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Vale Chess 3D Career - Build v0.2.3</title>
+  <link rel="stylesheet" href="style-v023.css?v=20260504-1238" />
 </head>
 <body>
   <div id="orientationGate" class="orientation-gate">
@@ -66,7 +66,9 @@
             <label>Nome do jogador</label>
             <input id="playerName" maxlength="18" placeholder="Seu nome" />
             <label>País</label>
-            <select id="playerCountry"></select>
+            <input id="countrySearch" class="country-search" placeholder="Pesquisar país" autocomplete="off" />
+            <div id="countryCount" class="country-count"></div>
+            <select id="playerCountry" size="8"></select>
             <div class="row-actions"><button id="saveProfileBtn" class="primary">Entrar no lobby</button></div>
           </div>
           <div>
@@ -147,6 +149,6 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
   <script src="assets/chess-local.js"></script>
   <script src="firebaseConfig.js"></script>
-  <script src="script.js"></script>
+  <script src="script-v023.js?v=20260504-1238"></script>
 </body>
 </html>
