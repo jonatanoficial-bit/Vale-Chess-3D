@@ -51,3 +51,6 @@ assets/competitions/trophies/world_trophy.png
 
 UI:
 assets/ui/cards/player_card_horizontal.png
+
+
+Build v0.2.2 observa flags em assets/flags/world/<slug>.png e tambem tenta fallbacks assets/flags/<slug>.png. Para paises principais, mantem nomes exatos do manifesto: brazil, usa, uk, uae, saudi_arabia, netherlands, belgium, canada, china, japan, mexico, spain, italy, australia, bahrain, hungary, monaco, qatar, singapore.
