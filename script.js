@@ -1,566 +1,62 @@
 /*
-  Vale Chess 3D Career - MVP offline
-  Build: v0.1.1
-  Foco: site estatico leve, mobile-first, GitHub Pages, pronto para Firebase no futuro.
+  Vale Chess 3D Career
+  Build: v0.2.1 - 2026-05-04 11:28 BRT
+  Mobile-first landscape, GitHub Pages, assets externos via manifesto.
 */
-
-const BUILD = {
-  version: "v0.1.1",
-  datetime: "2026-05-02 09:42 BRT",
-  label: "Build v0.1.1 - 2026-05-02 09:42 BRT"
+const BUILD={version:'v0.2.1',datetime:'2026-05-04 11:28 BRT',label:'Build v0.2.1 - 2026-05-04 11:28 BRT'};
+const SAVE_KEY='vale_chess_3d_career_save_v021';
+const ASSET={
+  cover:'assets/backgrounds/lobby/lobby_main_16x9.png', lobby:'assets/backgrounds/lobby/lobby_main_16x9.png', profile:'assets/backgrounds/profile/profile_creation_16x9.png', career:'assets/backgrounds/career/career_dashboard_16x9.png', victory:'assets/backgrounds/results/victory_16x9.png', defeat:'assets/backgrounds/results/defeat_16x9.png',
+  card:'assets/ui/cards/player_card_horizontal.png',
+  avatars:['assets/avatars/player/avatar_01.png','assets/avatars/player/avatar_02.png','assets/avatars/player/avatar_03.png','assets/avatars/player/avatar_04.png','assets/avatars/player/avatar_05.png','assets/avatars/player/avatar_06.png','assets/avatars/player/avatar_07.png','assets/avatars/player/avatar_08.png'],
+  flags:{Brasil:'assets/flags/world/brazil.png','Estados Unidos':'assets/flags/world/usa.png',Mexico:'assets/flags/world/mexico.png',Espanha:'assets/flags/world/spain.png',China:'assets/flags/world/china.png',Japao:'assets/flags/world/japan.png',Italia:'assets/flags/world/italy.png','Reino Unido':'assets/flags/world/uk.png',Australia:'assets/flags/world/australia.png',Canada:'assets/flags/world/canada.png',Belgica:'assets/flags/world/belgium.png'},
+  logos:{amateur:'assets/competitions/logos/amateur_league_logo.png',professional:'assets/competitions/logos/professional_league_logo.png',continental:'assets/competitions/logos/continental_logo.png',world:'assets/competitions/logos/world_championship_logo.png'},
+  trophies:{amateur:'assets/competitions/trophies/amateur_trophy.png',professional:'assets/competitions/trophies/professional_trophy.png',continental:'assets/competitions/trophies/continental_trophy.png',world:'assets/competitions/trophies/world_trophy.png'}
 };
-
-const STORAGE_KEY = "vale_chess_3d_career_profile_v011";
-const AVATARS = ["♟", "♞", "♜", "♛", "♚", "🧠", "🔥", "🌎", "🏆", "⭐"];
-const COUNTRIES = [
-  { name: "Brasil", flag: "🇧🇷", continent: "America", rating: 800 },
-  { name: "Argentina", flag: "🇦🇷", continent: "America", rating: 820 },
-  { name: "Estados Unidos", flag: "🇺🇸", continent: "America", rating: 950 },
-  { name: "Mexico", flag: "🇲🇽", continent: "America", rating: 790 },
-  { name: "Franca", flag: "🇫🇷", continent: "Europa", rating: 960 },
-  { name: "Espanha", flag: "🇪🇸", continent: "Europa", rating: 930 },
-  { name: "Alemanha", flag: "🇩🇪", continent: "Europa", rating: 970 },
-  { name: "India", flag: "🇮🇳", continent: "Asia", rating: 1000 },
-  { name: "China", flag: "🇨🇳", continent: "Asia", rating: 990 },
-  { name: "Japao", flag: "🇯🇵", continent: "Asia", rating: 900 }
+const COUNTRIES=[['Brasil','America'],['Estados Unidos','America'],['Mexico','America'],['Canada','America'],['Espanha','Europa'],['Italia','Europa'],['Reino Unido','Europa'],['Belgica','Europa'],['China','Asia'],['Japao','Asia'],['Australia','Oceania']].map(([name,continent])=>({name,continent,flag:ASSET.flags[name]||''}));
+const TOURNAMENTS=[
+ {id:'amateur',name:'Liga Nacional Amadora',scope:'Divisão local do seu país',min:0,prize:55,rep:35,logo:ASSET.logos.amateur,trophy:ASSET.trophies.amateur,bg:ASSET.career},
+ {id:'professional',name:'Liga Nacional Profissional',scope:'Promoção para circuito profissional',min:900,prize:85,rep:55,logo:ASSET.logos.professional,trophy:ASSET.trophies.professional,bg:ASSET.career},
+ {id:'continental',name:'Campeonato Continental',scope:'Ex.: Brasil disputa a América',min:1080,prize:120,rep:75,logo:ASSET.logos.continental,trophy:ASSET.trophies.continental,bg:ASSET.career},
+ {id:'world',name:'Campeonato Mundial',scope:'Elite global do xadrez',min:1320,prize:180,rep:110,logo:ASSET.logos.world,trophy:ASSET.trophies.world,bg:ASSET.career}
 ];
-
-const OPPONENTS = [
-  { name: "Rafael Torres", country: "Brasil", flag: "🇧🇷", rating: 780, avatar: "♙" },
-  { name: "Ana Costa", country: "Brasil", flag: "🇧🇷", rating: 850, avatar: "♕" },
-  { name: "Miguel Santos", country: "Argentina", flag: "🇦🇷", rating: 910, avatar: "♘" },
-  { name: "Sofia Miller", country: "Estados Unidos", flag: "🇺🇸", rating: 1040, avatar: "♖" },
-  { name: "Hugo Bernard", country: "Franca", flag: "🇫🇷", rating: 1180, avatar: "♔" },
-  { name: "Arjun Mehta", country: "India", flag: "🇮🇳", rating: 1320, avatar: "♛" },
-  { name: "Chen Wei", country: "China", flag: "🇨🇳", rating: 1450, avatar: "♜" },
-  { name: "Lukas Weber", country: "Alemanha", flag: "🇩🇪", rating: 1580, avatar: "♚" }
-];
-
-const TOURNAMENTS = [
-  { id: "local_amateur", name: "Liga Local Amador", level: "Amador", minRating: 0, prize: 45, title: 0, scope: "local" },
-  { id: "national_pro", name: "Circuito Nacional Profissional", level: "Profissional", minRating: 900, prize: 70, title: 1, scope: "nacional" },
-  { id: "continental", name: "Copa Continental", level: "Continental", minRating: 1050, prize: 95, title: 1, scope: "continental" },
-  { id: "world", name: "Campeonato Mundial", level: "Mundial", minRating: 1250, prize: 130, title: 2, scope: "mundial" }
-];
-
-let profile = null;
-let selectedAvatar = AVATARS[0];
-let currentTournament = TOURNAMENTS[0];
-let currentOpponent = OPPONENTS[0];
-let chess = null;
-let playerColor = "w";
-let selectedSquare = null;
-let legalTargets = [];
-let pieces = new Map();
-let squareMeshes = new Map();
-let highlightMeshes = [];
-let animations = [];
-let boardReady = false;
-let aiThinking = false;
-let cameraAngle = Math.PI / 4;
-let autoRotateCamera = false;
-
-let renderer, scene, camera, raycaster, pointer, boardGroup, pieceGroup, lightRig;
-const canvas = document.getElementById("gameCanvas");
-
-const $ = (id) => document.getElementById(id);
-
-function safeChessMethods(game) {
-  return {
-    isGameOver: () => typeof game.game_over === "function" ? game.game_over() : game.isGameOver(),
-    isCheck: () => typeof game.in_check === "function" ? game.in_check() : game.isCheck(),
-    isCheckmate: () => typeof game.in_checkmate === "function" ? game.in_checkmate() : game.isCheckmate(),
-    isDraw: () => typeof game.in_draw === "function" ? game.in_draw() : game.isDraw(),
-    fen: () => game.fen(),
-    turn: () => game.turn()
-  };
-}
-
-const GameState = {
-  gameId: null,
-  localMode: true,
-  createGame() {
-    this.gameId = "local-" + Date.now();
-    console.log("[Firebase futuro] createGame criaria uma sala remota com FEN inicial.");
-    return this.gameId;
-  },
-  joinGame(gameId) {
-    this.gameId = gameId;
-    console.log("[Firebase futuro] joinGame entraria na sala:", gameId);
-  },
-  sendMove(move) {
-    console.log("[Firebase futuro] sendMove sincronizaria a jogada:", move);
-  },
-  onGameUpdate(callback) {
-    console.log("[Firebase futuro] onGameUpdate escutaria mudancas do banco.");
-    this._callback = callback;
-  }
-};
-
-function init() {
-  $("buildInfo").textContent = BUILD.label;
-  hydrateProfileScreen();
-  loadProfile();
-  bindUI();
-  showScreen(profile ? "lobbyScreen" : "profileScreen");
-  if (profile) renderLobby();
-}
-
-function hydrateProfileScreen() {
-  const countrySelect = $("playerCountry");
-  countrySelect.innerHTML = COUNTRIES.map(c => `<option value="${c.name}">${c.flag} ${c.name}</option>`).join("");
-  const grid = $("avatarGrid");
-  grid.innerHTML = "";
-  AVATARS.forEach((avatar, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "avatar-option" + (idx === 0 ? " active" : "");
-    btn.textContent = avatar;
-    btn.addEventListener("click", () => {
-      selectedAvatar = avatar;
-      document.querySelectorAll(".avatar-option").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-    });
-    grid.appendChild(btn);
-  });
-}
-
-function bindUI() {
-  $("startCareerBtn").addEventListener("click", createProfile);
-  $("resetProfileBtn").addEventListener("click", () => {
-    localStorage.removeItem(STORAGE_KEY);
-    profile = null;
-    showScreen("profileScreen");
-  });
-  $("resetGameBtn").addEventListener("click", () => startMatch(currentTournament));
-  $("backLobbyBtn").addEventListener("click", () => { showScreen("lobbyScreen"); renderLobby(); });
-  $("cameraBtn").addEventListener("click", () => autoRotateCamera = !autoRotateCamera);
-  window.addEventListener("resize", resizeRenderer);
-}
-
-function createProfile() {
-  const name = ($("playerName").value || "Novo Mestre").trim().slice(0, 18);
-  const countryName = $("playerCountry").value;
-  const country = COUNTRIES.find(c => c.name === countryName) || COUNTRIES[0];
-  profile = { name, country: country.name, flag: country.flag, continent: country.continent, avatar: selectedAvatar, rating: 800, titles: 0, wins: 0, losses: 0 };
-  saveProfile();
-  renderLobby();
-  showScreen("lobbyScreen");
-}
-
-function loadProfile() {
-  try { profile = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { profile = null; }
-}
-
-function saveProfile() { localStorage.setItem(STORAGE_KEY, JSON.stringify(profile)); }
-
-function renderLobby() {
-  if (!profile) return;
-  $("lobbyAvatar").textContent = profile.avatar;
-  $("lobbyName").textContent = profile.name;
-  $("lobbyCountry").textContent = `${profile.flag} ${profile.country}`;
-  $("ratingValue").textContent = profile.rating;
-  $("titlesValue").textContent = profile.titles;
-  $("divisionValue").textContent = profile.rating >= 1250 ? "Mundial" : profile.rating >= 1050 ? "Continental" : profile.rating >= 900 ? "Profissional" : "Amador";
-  const list = $("tournamentList");
-  list.innerHTML = "";
-  TOURNAMENTS.forEach(t => {
-    const locked = profile.rating < t.minRating;
-    const card = document.createElement("div");
-    card.className = "tournament-card" + (locked ? " locked" : "");
-    card.innerHTML = `<h3>${t.name}</h3><p>Nivel: ${t.level} | Rating minimo: ${t.minRating}</p><p>Premio: +${t.prize} rating | Titulos: +${t.title}</p>`;
-    const btn = document.createElement("button");
-    btn.className = locked ? "ghost-btn" : "primary-btn";
-    btn.textContent = locked ? "Bloqueado" : "Jogar campeonato";
-    btn.disabled = locked;
-    btn.addEventListener("click", () => startMatch(t));
-    card.appendChild(btn);
-    list.appendChild(card);
-  });
-}
-
-function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  $(id).classList.add("active");
-  if (id === "gameScreen") setTimeout(resizeRenderer, 40);
-}
-
-function pickOpponent(tournament) {
-  const base = profile.rating + (tournament.minRating / 4);
-  const sorted = [...OPPONENTS].sort((a, b) => Math.abs(a.rating - base) - Math.abs(b.rating - base));
-  return sorted[Math.min(sorted.length - 1, Math.floor(Math.random() * 3))];
-}
-
-function startMatch(tournament) {
-  currentTournament = tournament;
-  currentOpponent = pickOpponent(tournament);
-  showScreen("gameScreen");
-  $("matchTitle").textContent = tournament.name;
-  $("userAvatarMini").textContent = profile.avatar;
-  $("userNameMini").textContent = profile.name;
-  $("userCountryMini").textContent = `${profile.flag} ${profile.country}`;
-  $("botAvatarMini").textContent = currentOpponent.avatar;
-  $("botNameMini").textContent = currentOpponent.name;
-  $("botCountryMini").textContent = `${currentOpponent.flag} ${currentOpponent.country}`;
-  $("moveHistory").innerHTML = "";
-  GameState.createGame();
-  setupChess();
-  setupThreeIfNeeded();
-  buildBoard();
-  syncPiecesFromGame(true);
-  updateStatus();
-}
-
-function setupChess() {
-  if (typeof Chess === "undefined") {
-    $("statusBox").textContent = "Erro: motor de xadrez nao carregou. Reenvie os arquivos da build completa.";
-    return;
-  }
-  chess = new Chess();
-  finishMatch._done = false;
-  selectedSquare = null;
-  legalTargets = [];
-  aiThinking = false;
-}
-
-function setupThreeIfNeeded() {
-  if (renderer || typeof THREE === "undefined") return;
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x07111f);
-  camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
-  raycaster = new THREE.Raycaster();
-  pointer = new THREE.Vector2();
-  boardGroup = new THREE.Group();
-  pieceGroup = new THREE.Group();
-  lightRig = new THREE.Group();
-  scene.add(boardGroup, pieceGroup, lightRig);
-
-  const ambient = new THREE.AmbientLight(0xffffff, 0.64);
-  const directional = new THREE.DirectionalLight(0xffffff, 1.4);
-  directional.position.set(5, 8, 4);
-  lightRig.add(ambient, directional);
-
-  canvas.addEventListener("pointerdown", onPointerDown, { passive: false });
-  canvas.addEventListener("pointermove", onPointerDrag, { passive: false });
-  canvas.addEventListener("pointerup", () => dragging = false);
-  resizeRenderer();
-  animate();
-  $("loadingOverlay").style.display = "none";
-}
-
-let dragging = false;
-let lastX = 0;
-function onPointerDrag(event) {
-  if (!dragging) return;
-  const dx = event.clientX - lastX;
-  lastX = event.clientX;
-  cameraAngle += dx * 0.006;
-  updateCamera();
-}
-
-function updateCamera() {
-  const r = 8.5;
-  camera.position.set(Math.cos(cameraAngle) * r, 7.1, Math.sin(cameraAngle) * r);
-  camera.lookAt(0, 0, 0);
-}
-
-function resizeRenderer() {
-  if (!renderer) return;
-  const wrap = $("canvasWrap");
-  const width = wrap.clientWidth;
-  const height = wrap.clientHeight;
-  renderer.setSize(width, height, false);
-  camera.aspect = width / Math.max(1, height);
-  camera.updateProjectionMatrix();
-  updateCamera();
-}
-
-function buildBoard() {
-  if (!scene) return;
-  boardGroup.clear();
-  squareMeshes.clear();
-  const darkMat = new THREE.MeshStandardMaterial({ color: 0x435071, roughness: 0.72 });
-  const lightMat = new THREE.MeshStandardMaterial({ color: 0xd8c292, roughness: 0.65 });
-  const edgeMat = new THREE.MeshStandardMaterial({ color: 0x1b273d, roughness: 0.8 });
-  const base = new THREE.Mesh(new THREE.BoxGeometry(8.6, 0.28, 8.6), edgeMat);
-  base.position.y = -0.18;
-  boardGroup.add(base);
-  for (let f = 0; f < 8; f++) {
-    for (let r = 0; r < 8; r++) {
-      const square = fileRankToSquare(f, r);
-      const mesh = new THREE.Mesh(new THREE.BoxGeometry(0.98, 0.08, 0.98), (f + r) % 2 === 0 ? lightMat : darkMat);
-      const pos = squareToPosition(square);
-      mesh.position.set(pos.x, 0, pos.z);
-      mesh.userData = { type: "square", square };
-      boardGroup.add(mesh);
-      squareMeshes.set(square, mesh);
-    }
-  }
-  boardReady = true;
-}
-
-function createPieceMesh(piece) {
-  const group = new THREE.Group();
-  const white = piece.color === "w";
-  const mat = new THREE.MeshStandardMaterial({ color: white ? 0xf4eee2 : 0x1b2030, roughness: 0.58, metalness: 0.08 });
-  const accent = new THREE.MeshStandardMaterial({ color: white ? 0xd6b160 : 0x6da8ff, roughness: 0.45, metalness: 0.18 });
-  const add = (geo, m, y, scaleX = 1, scaleZ = 1) => {
-    const mesh = new THREE.Mesh(geo, m);
-    mesh.position.y = y;
-    mesh.scale.x = scaleX;
-    mesh.scale.z = scaleZ;
-    mesh.castShadow = false;
-    group.add(mesh);
-  };
-  add(new THREE.CylinderGeometry(0.33, 0.42, 0.15, 18), mat, 0.08);
-  const t = piece.type;
-  if (t === "p") {
-    add(new THREE.CylinderGeometry(0.18, 0.28, 0.35, 16), mat, 0.32);
-    add(new THREE.SphereGeometry(0.25, 16, 12), mat, 0.62);
-  } else if (t === "r") {
-    add(new THREE.CylinderGeometry(0.28, 0.33, 0.68, 6), mat, 0.43);
-    add(new THREE.BoxGeometry(0.52, 0.16, 0.52), accent, 0.86);
-  } else if (t === "n") {
-    add(new THREE.CylinderGeometry(0.22, 0.32, 0.48, 14), mat, 0.34);
-    const head = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.45, 0.24), accent);
-    head.position.set(0.08, 0.73, -0.04);
-    head.rotation.z = -0.35;
-    group.add(head);
-  } else if (t === "b") {
-    add(new THREE.CylinderGeometry(0.18, 0.32, 0.58, 18), mat, 0.38);
-    add(new THREE.ConeGeometry(0.28, 0.48, 18), accent, 0.86);
-  } else if (t === "q") {
-    add(new THREE.CylinderGeometry(0.22, 0.35, 0.65, 18), mat, 0.42);
-    add(new THREE.SphereGeometry(0.32, 16, 12), accent, 0.86);
-    add(new THREE.ConeGeometry(0.18, 0.3, 16), accent, 1.16);
-  } else if (t === "k") {
-    add(new THREE.CylinderGeometry(0.24, 0.36, 0.72, 18), mat, 0.46);
-    add(new THREE.BoxGeometry(0.16, 0.48, 0.16), accent, 1.02);
-    add(new THREE.BoxGeometry(0.46, 0.14, 0.14), accent, 1.13);
-  }
-  group.userData = { type: "piece" };
-  return group;
-}
-
-function syncPiecesFromGame(clearFirst = false) {
-  if (!chess || !boardReady) return;
-  if (clearFirst) {
-    pieceGroup.clear();
-    pieces.clear();
-  }
-  const board = chess.board();
-  const existing = new Set();
-  for (let rank = 0; rank < 8; rank++) {
-    for (let file = 0; file < 8; file++) {
-      const piece = board[rank][file];
-      if (!piece) continue;
-      const square = fileRankToSquare(file, 7 - rank);
-      existing.add(square);
-      let mesh = pieces.get(square);
-      if (!mesh) {
-        mesh = createPieceMesh(piece);
-        mesh.userData.square = square;
-        mesh.userData.piece = piece;
-        const pos = squareToPosition(square);
-        mesh.position.set(pos.x, 0.08, pos.z);
-        pieceGroup.add(mesh);
-        pieces.set(square, mesh);
-      }
-    }
-  }
-  [...pieces.keys()].forEach(square => {
-    if (!existing.has(square)) {
-      const mesh = pieces.get(square);
-      pieceGroup.remove(mesh);
-      pieces.delete(square);
-    }
-  });
-}
-
-function onPointerDown(event) {
-  event.preventDefault();
-  dragging = true;
-  lastX = event.clientX;
-  if (!chess || aiThinking || animations.length) return;
-  const rect = canvas.getBoundingClientRect();
-  pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-  pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-  raycaster.setFromCamera(pointer, camera);
-  const targets = [...pieces.values(), ...squareMeshes.values()];
-  const hit = raycaster.intersectObjects(targets, true)[0];
-  if (!hit) return;
-  let obj = hit.object;
-  while (obj.parent && !obj.userData.square && obj.parent !== scene) obj = obj.parent;
-  const square = obj.userData.square;
-  if (!square) return;
-  handleSquare(square);
-}
-
-function handleSquare(square) {
-  const methods = safeChessMethods(chess);
-  if (methods.isGameOver() || methods.turn() !== playerColor) return;
-  const piece = chess.get(square);
-  if (selectedSquare && legalTargets.includes(square)) {
-    makeMove(selectedSquare, square, true);
-    return;
-  }
-  if (piece && piece.color === playerColor) {
-    selectedSquare = square;
-    legalTargets = chess.moves({ square, verbose: true }).map(m => m.to);
-    drawHighlights(square, legalTargets);
-  } else {
-    selectedSquare = null;
-    legalTargets = [];
-    clearHighlights();
-  }
-}
-
-function drawHighlights(from, targets) {
-  clearHighlights();
-  const selPos = squareToPosition(from);
-  const sel = new THREE.Mesh(new THREE.CylinderGeometry(0.47, 0.47, 0.035, 32), new THREE.MeshBasicMaterial({ color: 0xf2c66d, transparent: true, opacity: 0.62 }));
-  sel.position.set(selPos.x, 0.095, selPos.z);
-  boardGroup.add(sel);
-  highlightMeshes.push(sel);
-  targets.forEach(sq => {
-    const pos = squareToPosition(sq);
-    const hasCapture = !!chess.get(sq);
-    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(hasCapture ? 0.42 : 0.25, hasCapture ? 0.42 : 0.25, 0.04, 32), new THREE.MeshBasicMaterial({ color: hasCapture ? 0xff6b6b : 0x64e6a8, transparent: true, opacity: 0.72 }));
-    mesh.position.set(pos.x, 0.12, pos.z);
-    boardGroup.add(mesh);
-    highlightMeshes.push(mesh);
-  });
-}
-
-function clearHighlights() {
-  highlightMeshes.forEach(m => boardGroup.remove(m));
-  highlightMeshes = [];
-}
-
-function makeMove(from, to, byHuman) {
-  const movingMesh = pieces.get(from);
-  const capturedMesh = pieces.get(to);
-  const move = chess.move({ from, to, promotion: "q" });
-  if (!move) return false;
-  GameState.sendMove(move);
-  selectedSquare = null;
-  legalTargets = [];
-  clearHighlights();
-  if (capturedMesh) {
-    pieceGroup.remove(capturedMesh);
-    pieces.delete(to);
-  }
-  if (movingMesh) {
-    pieces.delete(from);
-    pieces.set(to, movingMesh);
-    movingMesh.userData.square = to;
-    movingMesh.userData.piece = chess.get(to);
-    animatePiece(movingMesh, squareToPosition(to));
-  } else {
-    syncPiecesFromGame(true);
-  }
-  addMoveToHistory(move);
-  setTimeout(() => {
-    syncPiecesFromGame(false);
-    updateStatus();
-    const methods = safeChessMethods(chess);
-    if (!methods.isGameOver() && byHuman) scheduleAiMove();
-  }, 340);
-  return true;
-}
-
-function animatePiece(mesh, target) {
-  animations.push({ mesh, from: mesh.position.clone(), to: new THREE.Vector3(target.x, 0.08, target.z), start: performance.now(), duration: 320 });
-}
-
-function scheduleAiMove() {
-  aiThinking = true;
-  updateStatus("CPU pensando...");
-  setTimeout(() => {
-    const moves = chess.moves({ verbose: true });
-    if (!moves.length) { aiThinking = false; updateStatus(); return; }
-    const move = chooseAiMove(moves);
-    aiThinking = false;
-    makeMove(move.from, move.to, false);
-  }, 650);
-}
-
-function chooseAiMove(moves) {
-  const captures = moves.filter(m => m.captured);
-  const checks = moves.filter(m => m.san.includes("+"));
-  const pool = checks.length ? checks : captures.length ? captures : moves;
-  return pool[Math.floor(Math.random() * pool.length)];
-}
-
-function addMoveToHistory(move) {
-  const li = document.createElement("li");
-  li.textContent = `${move.color === "w" ? "Brancas" : "Pretas"}: ${move.san}`;
-  $("moveHistory").appendChild(li);
-  const panel = $("moveHistory").parentElement;
-  panel.scrollTop = panel.scrollHeight;
-}
-
-function updateStatus(prefix) {
-  if (!chess) return;
-  const methods = safeChessMethods(chess);
-  let text = prefix || `Turno: ${methods.turn() === "w" ? "Brancas" : "Pretas"}`;
-  if (methods.isCheckmate()) {
-    const whiteWon = methods.turn() === "b";
-    text = whiteWon ? "Xeque-mate! Voce venceu." : "Xeque-mate! CPU venceu.";
-    finishMatch(whiteWon);
-  } else if (methods.isDraw()) {
-    text = "Empate detectado.";
-    finishMatch(false, true);
-  } else if (methods.isCheck()) {
-    text += " | Xeque!";
-  }
-  $("statusBox").textContent = text;
-}
-
-function finishMatch(userWon, draw = false) {
-  if (!profile || finishMatch._done) return;
-  finishMatch._done = true;
-  setTimeout(() => { finishMatch._done = false; }, 1500);
-  if (draw) {
-    profile.rating += 10;
-  } else if (userWon) {
-    profile.rating += currentTournament.prize;
-    profile.titles += currentTournament.title;
-    profile.wins += 1;
-  } else {
-    profile.rating = Math.max(600, profile.rating - 25);
-    profile.losses += 1;
-  }
-  saveProfile();
-}
-
-function fileRankToSquare(file, rankIndexFromWhite) {
-  return "abcdefgh"[file] + (rankIndexFromWhite + 1);
-}
-
-function squareToPosition(square) {
-  const file = "abcdefgh".indexOf(square[0]);
-  const rank = parseInt(square[1], 10) - 1;
-  return { x: file - 3.5, z: 3.5 - rank };
-}
-
-function animate(now = performance.now()) {
-  requestAnimationFrame(animate);
-  if (!renderer) return;
-  if (autoRotateCamera) {
-    cameraAngle += 0.004;
-    updateCamera();
-  }
-  animations = animations.filter(anim => {
-    const t = Math.min(1, (now - anim.start) / anim.duration);
-    const lift = Math.sin(t * Math.PI) * 0.3;
-    anim.mesh.position.lerpVectors(anim.from, anim.to, t);
-    anim.mesh.position.y = 0.08 + lift;
-    return t < 1;
-  });
-  pieceGroup.children.forEach((g) => { g.rotation.y += 0.0008; });
-  renderer.render(scene, camera);
-}
-
-init();
+const OPPONENTS=[
+ ['Rafael Torres','Brasil',790,'amateur'],['Ana Costa','Brasil',850,'amateur'],['Carlos Vega','Mexico',920,'professional'],['Sofia Miller','Estados Unidos',1040,'professional'],['Isabel Rojas','Espanha',1140,'continental'],['Aiko Tanaka','Japao',1280,'continental'],['Chen Wei','China',1440,'world'],['Oliver Smith','Reino Unido',1570,'world'],['Elena Rossi','Italia',1390,'world']
+].map((o,i)=>({name:o[0],country:o[1],rating:o[2],tier:o[3],avatar:ASSET.avatars[i%ASSET.avatars.length],flag:ASSET.flags[o[1]]||''}));
+const $=id=>document.getElementById(id);
+function safeText(id,text){const el=$(id); if(el) el.textContent=text;}
+function bindClick(id,fn){const el=$(id); if(el) el.addEventListener('click',fn); else console.warn('[ValeChess] Elemento nao encontrado:',id);}
+let save=null, activeMode='single', selectedAvatar=0, selectedCountry='Brasil', chess=null, selectedSq=null, legal=[], pieces=new Map(), squares=new Map(), highlights=[], renderer,scene,camera,raycaster,pointer,boardGroup,pieceGroup,autoRotate=false,currentTournament=TOURNAMENTS[0],currentOpponent=OPPONENTS[0],playerColor='w',aiBusy=false,moveHistory=[],resultShown=false;
+const GameState={gameId:null,createGame(){this.gameId='future-'+Date.now(); console.log('[Firebase futuro] createGame cria sala remota com FEN, jogadores e status.'); return this.gameId},joinGame(gameId){this.gameId=gameId; console.log('[Firebase futuro] joinGame:',gameId)},sendMove(move){console.log('[Firebase futuro] sendMove gravaria jogada e FEN:',move)},onGameUpdate(callback){console.log('[Firebase futuro] onGameUpdate escutaria sala.'); this.callback=callback}}; window.GameState=GameState;
+function init(){ safeText('buildInfo',BUILD.label); hydrateProfile(); bind(); load(); const cb=$('continueBtn'); if(save){show('coverScreen'); if(cb) cb.disabled=false}else{if(cb) cb.disabled=true; show('coverScreen')} }
+function bind(){document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{show(b.dataset.go); if(b.dataset.go==='lobbyScreen') renderLobby(); if(b.dataset.go==='careerScreen') renderCareer();})); bindClick('newGameBtn',()=>{save=null; localStorage.removeItem(SAVE_KEY); show('modeScreen')}); bindClick('continueBtn',()=>{load(); activeMode=save?.mode||'single'; show('lobbyScreen'); renderLobby()}); document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>selectMode(b.dataset.mode))); bindClick('saveProfileBtn',saveProfile); bindClick('careerBtn',()=>{show(activeMode==='online'?'onlineLobbyScreen':'careerScreen'); if(activeMode!=='online') renderCareer()}); bindClick('quickMatchBtn',()=>startMatch(TOURNAMENTS[0], activeMode)); bindClick('resetSaveBtn',()=>{if(confirm('Reiniciar perfil e progresso?')){localStorage.removeItem(SAVE_KEY); location.reload()}}); bindClick('backFromGameBtn',()=>{show('lobbyScreen'); renderLobby()}); bindClick('resetGameBtn',()=>startMatch(currentTournament, activeMode)); bindClick('rotateCameraBtn',()=>autoRotate=!autoRotate); bindClick('onlinePreviewBtn',()=>startMatch(TOURNAMENTS[0],'online-preview')); window.addEventListener('resize',resizeRenderer)}
+function selectMode(mode){activeMode=mode; if(save?.profile){save.mode=mode; persist(); if(mode==='online') show('onlineLobbyScreen'); else {show('lobbyScreen'); renderLobby();}} else show('profileScreen')}
+function hydrateProfile(){const c=$('playerCountry'); c.innerHTML=COUNTRIES.map(x=>`<option value="${x.name}">${x.name}</option>`).join(''); c.onchange=()=>selectedCountry=c.value; const grid=$('avatarGrid'); grid.innerHTML=''; ASSET.avatars.forEach((src,i)=>{const b=document.createElement('button'); b.className='avatar-option'+(i===0?' active':''); b.innerHTML=`<img src="${src}" onerror="this.outerHTML='<span class=avatar-fallback>♟</span>'">`; b.onclick=()=>{selectedAvatar=i; document.querySelectorAll('.avatar-option').forEach(x=>x.classList.remove('active')); b.classList.add('active')}; grid.appendChild(b)})}
+function load(){try{save=JSON.parse(localStorage.getItem(SAVE_KEY)||'null')}catch{save=null}}
+function persist(){localStorage.setItem(SAVE_KEY,JSON.stringify(save))}
+function defaultSave(name,country,avatar){return{build:BUILD.label,mode:activeMode,profile:{name,country,avatar},career:{rating:800,money:100,reputation:0,wins:0,losses:0,titles:[],mission:'Vença 2 partidas na Liga Amadora para ganhar reputação.'}}}
+function saveProfile(){const name=($('playerName').value||'Jogador').trim().slice(0,18); save=defaultSave(name,selectedCountry,selectedAvatar); persist(); show('lobbyScreen'); renderLobby()}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); if(id==='gameScreen') setTimeout(resizeRenderer,60)}
+function img(src,cls='',alt=''){return `<img class="${cls}" src="${src}" alt="${alt}" onerror="this.style.display='none'">`}
+function countryObj(name){return COUNTRIES.find(c=>c.name===name)||COUNTRIES[0]}
+function renderLobby(){if(!save)return; const p=save.profile,c=countryObj(p.country),car=save.career; $('playerCard').innerHTML=`<div>${img(ASSET.avatars[p.avatar]||ASSET.avatars[0],'','avatar')}<div class="fallback-avatar">♟</div></div><div><span class="brand-kicker">${activeMode.toUpperCase()}</span><h3>${p.name}</h3><p>${p.country}</p><p>Rating ${car.rating}</p></div>`; $('playerCard').querySelector('img')?.addEventListener('error',e=>e.currentTarget.nextElementSibling.style.display='grid'); $('playerCard').querySelector('.fallback-avatar').style.display='none'; $('lobbyTitle').textContent=`Olá, ${p.name}`; $('lobbyText').textContent=activeMode==='single'?'Entre no modo carreira, conquiste pontos e suba dos torneios nacionais até o mundial.':activeMode==='duo'?'Modo local para dois jogadores no mesmo dispositivo.': 'Modo online preparado para Firebase.'; $('modeNotice').textContent=activeMode==='single'?car.mission: activeMode==='duo'?'Duo Player: ambos jogam no mesmo aparelho, sem IA.':'Online: estrutura pronta, aguardando Firebase.'; $('careerStats').innerHTML=`<div class=stat><strong>${car.rating}</strong>Rating</div><div class=stat><strong>${car.wins}</strong>Vitórias</div><div class=stat><strong>${car.losses}</strong>Derrotas</div><div class=stat><strong>${car.titles.length}</strong>Títulos</div>`}
+function renderCareer(){const car=save.career; $('tournamentGrid').innerHTML=TOURNAMENTS.map(t=>{const locked=car.rating<t.min;return `<button class="tournament-card glass ${locked?'locked':''}" style="background-image:linear-gradient(90deg,rgba(4,9,18,.92),rgba(4,9,18,.45)),url('${t.bg}')" data-tournament="${t.id}" ${locked?'disabled':''}><span class=badge>${locked?'BLOQUEADO':'DISPONÍVEL'}</span><strong>${t.name}</strong><span>${t.scope}<br>Requer rating ${t.min}<br>Prêmio +${t.prize} moedas / +${t.rep} reputação</span>${img(t.logo,'','logo')}</button>`}).join(''); document.querySelectorAll('[data-tournament]').forEach(b=>b.onclick=()=>startMatch(TOURNAMENTS.find(t=>t.id===b.dataset.tournament),'single'))}
+function chooseOpponent(t){let pool=OPPONENTS.filter(o=>o.tier===t.id); if(!pool.length) pool=OPPONENTS; return pool[Math.floor(Math.random()*pool.length)]}
+function startMatch(t,mode=activeMode){resultShown=false; currentTournament=t; currentOpponent= mode==='duo'?{name:'Jogador 2',country:'Local',rating:800,avatar:ASSET.avatars[1],flag:''}:chooseOpponent(t); playerColor='w'; moveHistory=[]; if(typeof Chess==='undefined'){alert('Erro: biblioteca de xadrez nao carregou. Verifique assets/chess-local.js no ZIP.'); return;} chess=new Chess(); selectedSq=null; legal=[]; aiBusy=false; $('matchTitle').textContent=t.name; renderVersus(); show('gameScreen'); updateTurn(); init3D(); renderBoard(); renderFallback();}
+function renderVersus(){const p=save?.profile||{name:'Jogador',avatar:0,country:'Brasil'}; $('versusBox').innerHTML=`<div class=mini-player>${img(ASSET.avatars[p.avatar]||ASSET.avatars[0],'','P1')}<strong>${p.name}</strong><small>${p.country}</small></div><b>VS</b><div class=mini-player>${img(currentOpponent.avatar,'','OP')}<strong>${currentOpponent.name}</strong><small>${currentOpponent.country}</small></div>`}
+function updateTurn(){if(!chess)return; const turn=chess.turn()==='w'?'Brancas':'Pretas'; let status=`Turno: ${turn}`; if(chess.in_checkmate())status='Xeque-mate'; else if(chess.in_check())status+= ' • Xeque'; else if(chess.in_draw())status='Empate'; $('turnBox').textContent=status; $('historyBox').innerHTML=moveHistory.map((m,i)=>`${i+1}. ${m}`).join('<br>'); if(chess.game_over()) finishGame(chess.in_checkmate()? (chess.turn()==='b'?'win':'loss'):'draw')}
+function finishGame(result){if(resultShown)return; resultShown=true; setTimeout(()=>{const win=result==='win'; const t=currentTournament; $('resultScreen').classList.toggle('bg-victory',win); $('resultScreen').classList.toggle('bg-defeat',!win); $('resultTrophy').src=t.trophy; $('resultTitle').textContent=win?'Vitória!':result==='draw'?'Empate':'Derrota'; let text='Partida concluída.'; if(activeMode==='single'&&save){ if(win){save.career.wins++; save.career.rating+=Math.round(t.rep/2); save.career.money+=t.prize; save.career.reputation+=t.rep; if(!save.career.titles.includes(t.id)) save.career.titles.push(t.id); text=`Você venceu ${t.name}. Rating, moedas e reputação aumentaram.`} else if(result==='loss'){save.career.losses++; save.career.rating=Math.max(600,save.career.rating-18); text='Você perdeu a partida. Treine e tente novamente.'} else{text='Empate registrado. A carreira continua.'} persist()} $('resultText').textContent=text; show('resultScreen'); renderLobby()},700)}
+function init3D(){const canvas=$('gameCanvas'); if(!window.THREE){$('fallbackBoard').classList.add('active'); return} if(renderer){resizeRenderer(); return} scene=new THREE.Scene(); scene.background=new THREE.Color(0x06101f); camera=new THREE.PerspectiveCamera(45,1,.1,100); camera.position.set(5.2,6.2,7.5); camera.lookAt(0,0,0); renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'}); renderer.setPixelRatio(Math.min(devicePixelRatio,1.6)); raycaster=new THREE.Raycaster(); pointer=new THREE.Vector2(); boardGroup=new THREE.Group(); pieceGroup=new THREE.Group(); scene.add(boardGroup,pieceGroup); scene.add(new THREE.AmbientLight(0xffffff,.52)); const dl=new THREE.DirectionalLight(0xffe2a6,1.35); dl.position.set(4,8,6); scene.add(dl); createBoardMeshes(); canvas.addEventListener('pointerdown',onPointer); animate()}
+function createBoardMeshes(){boardGroup.clear(); squares.clear(); const dark=new THREE.MeshStandardMaterial({color:0x374563,roughness:.55,metalness:.08}), light=new THREE.MeshStandardMaterial({color:0xbba878,roughness:.46,metalness:.12}); const base=new THREE.Mesh(new THREE.BoxGeometry(8.45,.22,8.45),new THREE.MeshStandardMaterial({color:0x121b2d,roughness:.45,metalness:.18})); base.position.y=-.13; boardGroup.add(base); for(let r=0;r<8;r++)for(let f=0;f<8;f++){const m=new THREE.Mesh(new THREE.BoxGeometry(1,.09,1),(r+f)%2?dark:light); m.position.set(f-3.5,0,r-3.5); m.userData.square='abcdefgh'[f]+(8-r); boardGroup.add(m); squares.set(m.userData.square,m)}}
+function pieceMesh(p){const col=p.color==='w'?0xf2ead8:0x11131a, accent=p.color==='w'?0xd7bb70:0x4d83d5; const mat=new THREE.MeshStandardMaterial({color:col,roughness:.35,metalness:.16}); const group=new THREE.Group(); const base=new THREE.Mesh(new THREE.CylinderGeometry(.32,.42,.18,20),mat); base.position.y=.13; group.add(base); const body=new THREE.Mesh(new THREE.CylinderGeometry(.20,.30,.45,18),mat); body.position.y=.43; group.add(body); let top;if(p.type==='p')top=new THREE.Mesh(new THREE.SphereGeometry(.22,18,14),mat); if(p.type==='r')top=new THREE.Mesh(new THREE.BoxGeometry(.48,.28,.48),new THREE.MeshStandardMaterial({color:accent,metalness:.25,roughness:.25})); if(p.type==='n'){top=new THREE.Mesh(new THREE.ConeGeometry(.28,.55,4),new THREE.MeshStandardMaterial({color:accent,metalness:.25,roughness:.25})); top.rotation.y=.78} if(p.type==='b')top=new THREE.Mesh(new THREE.SphereGeometry(.24,18,14),new THREE.MeshStandardMaterial({color:accent,metalness:.25,roughness:.25})); if(p.type==='q')top=new THREE.Mesh(new THREE.SphereGeometry(.30,20,16),new THREE.MeshStandardMaterial({color:accent,metalness:.35,roughness:.18})); if(p.type==='k')top=new THREE.Mesh(new THREE.CylinderGeometry(.18,.28,.58,20),new THREE.MeshStandardMaterial({color:accent,metalness:.35,roughness:.18})); top.position.y=.82; group.add(top); if(p.type==='k'){const cross=new THREE.Mesh(new THREE.BoxGeometry(.08,.28,.08),mat); cross.position.y=1.2; group.add(cross)} group.userData.piece=true; return group}
+function sqPos(s){const f='abcdefgh'.indexOf(s[0]), r=8-parseInt(s[1]); return {x:f-3.5,z:r-3.5}}
+function renderBoard(){if(!window.THREE||!pieceGroup)return; pieceGroup.clear(); pieces.clear(); clearHighlights(); const b=chess.board(); for(let r=0;r<8;r++)for(let f=0;f<8;f++){const p=b[r][f]; if(!p)continue; const s='abcdefgh'[f]+(8-r); const mesh=pieceMesh(p); const pos=sqPos(s); mesh.position.set(pos.x,.08,pos.z); mesh.userData.square=s; pieceGroup.add(mesh); pieces.set(s,mesh)}}
+function renderFallback(){const fb=$('fallbackBoard'); if(window.THREE){fb.classList.remove('active');return} fb.classList.add('active'); const map={p:'♟',r:'♜',n:'♞',b:'♝',q:'♛',k:'♚'}; const b=chess.board(); fb.innerHTML='<div class=fallback-board-grid>'+b.map((row,r)=>row.map((p,f)=>{const s='abcdefgh'[f]+(8-r); let cl='fallback-square '+((r+f)%2?'dark':'light')+(s===selectedSq?' selected':'')+(legal.includes(s)?' legal':''); return `<button class="${cl}" data-sq="${s}">${p?(p.color==='w'?map[p.type].replace('♟','♙').replace('♜','♖').replace('♞','♘').replace('♝','♗').replace('♛','♕').replace('♚','♔'):map[p.type]):''}</button>`}).join('')).join('')+'</div>'; fb.querySelectorAll('[data-sq]').forEach(b=>b.onclick=()=>handleSquare(b.dataset.sq))}
+function onPointer(e){const rect=renderer.domElement.getBoundingClientRect(); pointer.x=((e.clientX-rect.left)/rect.width)*2-1; pointer.y=-((e.clientY-rect.top)/rect.height)*2+1; raycaster.setFromCamera(pointer,camera); const objs=[...squares.values(),...pieces.values()]; const hit=raycaster.intersectObjects(objs,true)[0]; if(!hit)return; let o=hit.object; while(o&&!o.userData.square)o=o.parent; if(o?.userData.square)handleSquare(o.userData.square)}
+function handleSquare(sq){if(aiBusy||!chess||chess.game_over())return; if(activeMode==='single'&&chess.turn()!==playerColor)return; const p=chess.get(sq); if(selectedSq&&legal.includes(sq)){const mv=chess.move({from:selectedSq,to:sq,promotion:'q'}); if(mv){moveHistory.push(`${mv.color==='w'?'Brancas':'Pretas'}: ${mv.from}-${mv.to}`); GameState.sendMove(mv); selectedSq=null; legal=[]; renderBoard(); renderFallback(); updateTurn(); if(activeMode==='single'&&!chess.game_over()) setTimeout(aiMove,450)} return} if(p&&p.color===chess.turn()){selectedSq=sq; legal=chess.moves({square:sq,verbose:true}).map(m=>m.to); showHighlights(); renderFallback()} else {selectedSq=null; legal=[]; clearHighlights(); renderFallback()}}
+function aiMove(){aiBusy=true; const moves=chess.moves({verbose:true}); if(moves.length){moves.sort((a,b)=>(b.captured?1:0)-(a.captured?1:0)); const m=moves[Math.min(Math.floor(Math.random()*Math.min(4,moves.length)),moves.length-1)]; const mv=chess.move({from:m.from,to:m.to,promotion:'q'}); if(mv) moveHistory.push(`Pretas: ${mv.from}-${mv.to}`)} aiBusy=false; renderBoard(); renderFallback(); updateTurn()}
+function clearHighlights(){if(!window.THREE)return; highlights.forEach(h=>boardGroup.remove(h)); highlights=[]; squares.forEach(m=>m.material.emissive?.setHex(0x000000))}
+function showHighlights(){if(!window.THREE)return; clearHighlights(); if(selectedSq&&squares.get(selectedSq))squares.get(selectedSq).material.emissive.setHex(0x146c56); legal.forEach(s=>{const pos=sqPos(s); const h=new THREE.Mesh(new THREE.CylinderGeometry(.24,.24,.035,24),new THREE.MeshBasicMaterial({color:0x70a8ff,transparent:true,opacity:.58})); h.position.set(pos.x,.12,pos.z); boardGroup.add(h); highlights.push(h)})}
+function resizeRenderer(){if(!renderer)return; const wrap=document.querySelector('.board-wrap'); const w=wrap.clientWidth,h=wrap.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix()}
+function animate(){requestAnimationFrame(animate); if(autoRotate&&camera){const t=Date.now()*0.00035; camera.position.x=Math.sin(t)*8; camera.position.z=Math.cos(t)*8; camera.lookAt(0,0,0)} renderer?.render(scene,camera)}
+window.addEventListener('DOMContentLoaded',init);
