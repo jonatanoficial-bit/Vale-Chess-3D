@@ -1,3 +1,3 @@
 Vale Chess 3D Career
-Build v0.2.3 - 2026-05-04 12:38 BRT
-Correcoes: cache bust, todos os paises visiveis com busca, lobby com bandeira/avatar/estatisticas, rotacao livre mouse/toque.
+Build v0.2.4 - 2026-05-04 13:05 BRT
+Correção: fallback robusto para bandeiras no lobby e múltiplos caminhos/extensões.
