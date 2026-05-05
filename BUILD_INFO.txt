@@ -1,3 +1,5 @@
 Vale Chess 3D Career
-Build v0.2.7 - 2026-05-04 17:42 BRT
-Fix: inicializacao JS, botoes Novo jogo/Continuar, cache-busting v026.
+Build: v0.2.9
+Data/hora: 2026-05-05 09:42 BRT
+
+Esta build melhora a apresentação comercial, o tabuleiro 3D e a IA do modo carreira.
