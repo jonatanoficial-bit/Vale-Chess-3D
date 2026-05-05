@@ -1,27 +1,14 @@
-# Vale Chess 3D Career - Build v0.2.9
+# Vale Chess 3D Career - Build v0.3.1
 
-Arquivos principais:
-- index.html
-- style-v029.css
-- script-v029.js
-- firebaseConfig.js
-- assets/chess-local.js
+Build: v0.3.1 - 2026-05-05 10:42 BRT
 
-Assets pesados não foram reenviados. O jogo continua apontando para os caminhos do manifesto já usado no GitHub.
+## Upgrade principal
+- Carreira organizada por geografia.
+- Liga Nacional Amadora e Liga Nacional Profissional usam adversários do país escolhido pelo jogador.
+- Campeonato Continental usa adversários do mesmo continente do jogador.
+- Campeonato Mundial usa adversários de todos os continentes.
+- Cards de campeonato mostram escopo geográfico, bandeiras de prévia e quantidade de países disponíveis.
+- IA continua progressiva por campeonato, com variação randômica dentro de limites de dificuldade.
 
-Melhorias desta build:
-1. Fundo/arena atrás do tabuleiro 3D usando o background de carreira e elementos 3D simples de palco.
-2. Peças 3D redesenhadas com estilo mais refinado, medieval/glamouroso, usando geometrias leves do Three.js.
-3. Seleção corrigida: ao tocar em uma peça, apenas a peça/ring de seleção e casas possíveis são destacadas. O tabuleiro não deve ficar todo azul.
-4. IA com dificuldade progressiva por campeonato:
-   - Amador: fácil, mais erros e jogadas aleatórias.
-   - Profissional: intermediário.
-   - Continental: mais tático.
-   - Mundial: mais seletivo/desafiador.
-5. Lobby e botões receberam polimento visual mais comercial.
-
-Etapas planejadas para as melhorias maiores:
-- Etapa 1: polimento visual + seleção + IA progressiva (esta build).
-- Etapa 2: animações de captura, promoção, xeque, vitória/derrota e áudio leve.
-- Etapa 3: sistema de temporada/campeonato com rodadas, tabela, ranking e adversários por país.
-- Etapa 4: refinamento avançado das peças e tabuleiro com assets próprios ou modelos leves.
+## Assets
+Esta build não reenviou assets pesados. Mantém os caminhos definidos no manifesto e espera bandeiras em assets/flags/world/<codigo_iso>.png.
