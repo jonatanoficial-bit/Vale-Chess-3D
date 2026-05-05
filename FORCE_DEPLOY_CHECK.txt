@@ -1,1 +1,2 @@
-Build v0.3.1 - 2026-05-05 10:42 BRT - arquivo de verificacao de deploy limpo.
+Se no topo nao aparecer Build v0.3.2 - 2026-05-05 11:18 BRT, o deploy/cache ainda esta servindo build antiga.
+Arquivos principais desta build: index.html, style-v032.css, script-v032.js.
