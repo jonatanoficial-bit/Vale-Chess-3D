@@ -1,5 +1,2 @@
 Vale Chess 3D Career
-Build v0.3.2 - 2026-05-05 11:18 BRT
-
-Patch: tabuleiro 3D limpo e selecao de pecas corrigida.
-Assets pesados continuam externos conforme manifesto.
+Build v0.3.3 - 2026-05-05 11:38 BRT
