@@ -1,0 +1,5 @@
+Build v0.8.0
+- Atualizados index.html, script-v080.js e style-v080.css com cache busting.
+- Mantido protocolo anti-quebra.
+- Mantida compatibilidade com saves antigos via legacy keys.
+- Adicionada tela economyScreen sem remover telas anteriores.

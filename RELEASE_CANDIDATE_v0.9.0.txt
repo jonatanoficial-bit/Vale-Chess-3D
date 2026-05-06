@@ -1,0 +1,13 @@
+Release Candidate v0.9.0
+
+Checklist antes da v1.0.0:
+1. Abrir capa e confirmar Build v0.9.0 - 2026-05-06 21:45 BRT.
+2. Criar perfil, escolher pais, avatar e entrar no lobby.
+3. Confirmar bandeira, nome, rating, moedas, reputacao e rankings.
+4. Abrir carreira, iniciar rodada e testar toque curto para selecionar/mover.
+5. Verificar IA das pretas jogando.
+6. Validar xeque, fim de partida, tela de resultado e contabilizacao.
+7. Abrir Loja e treino, comprar item, confirmar bonus.
+8. Testar em mobile landscape e fullscreen.
+
+Se estes itens passarem, a proxima build pode ser v1.0.0 MVP publicavel single player.

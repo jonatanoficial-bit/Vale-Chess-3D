@@ -1,0 +1,8 @@
+Vale Chess 3D Career - Build v0.9.0
+
+Foco: QA final / release candidate.
+- Build, data e hora visiveis no topo.
+- Cache-busting com script-v090.js e style-v090.css.
+- Checklist interno window.VALE_CHESS_QA.
+- QA pill passa a mostrar QA RC OK quando validacoes essenciais passam.
+- Mantidos: economia, loja, IA com personalidade, rivais, ranking, temporada, tutorial, feedback sensorial e mobile landscape.

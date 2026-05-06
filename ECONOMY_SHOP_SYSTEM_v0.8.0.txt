@@ -1,0 +1,12 @@
+Vale Chess 3D Career - v0.8.0
+Sistema implementado: progressao economica e loja simples.
+
+Inclui:
+- Carteira de moedas, reputacao e nivel economico.
+- Loja com treinos, cosmetico premium e passe de torneio.
+- Treino tatico: bonus de rating em vitorias e empates.
+- Mentoria de Mestre: bonus de reputacao em vitorias.
+- Rotina de foco: reduz perda de rating em derrotas e aumenta moedas por partida.
+- Tabuleiro premium: cosmetico/status visual no perfil.
+- Historico de compras e persistencia em localStorage.
+- Migracao de saves v0.7.0 para v0.8.0.

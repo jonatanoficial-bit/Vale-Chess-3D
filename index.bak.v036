@@ -4,46 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#08111f" />
-  <title>Vale Chess 3D Career - Build v0.9.0</title>
-  <link rel="stylesheet" href="style-v090.css?v=20260506-2145" />
+  <title>Vale Chess 3D Career - Build v0.3.6</title>
+  <link rel="stylesheet" href="style-v036.css?v=20260506-1615" />
 </head>
 <body>
   <div id="orientationGate" class="orientation-gate">
     <div class="phone-icon">▭</div>
     <strong>Gire o celular</strong>
     <span>O jogo foi pensado para mobile em modo deitado.</span>
-  </div>
-
-
-  <button id="fullscreenFab" class="fullscreen-fab" type="button">⛶ Tela cheia</button>
-  <div id="mobileCoach" class="mobile-coach hidden">
-    <div class="mobile-coach-card glass">
-      <strong>Controles rápidos</strong>
-      <span>Toque curto seleciona e joga. Arraste no tabuleiro para girar a câmera.</span>
-      <button id="mobileCoachOk" class="primary" type="button">Entendi</button>
-    </div>
-  </div>
-
-
-  <div id="onboardingOverlay" class="onboarding-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
-    <div class="onboarding-card glass">
-      <div class="onboarding-head">
-        <span class="brand-kicker">TUTORIAL RÁPIDO</span>
-        <button id="closeOnboardingBtn" class="ghost" type="button">Fechar</button>
-      </div>
-      <h2 id="onboardingTitle">Como jogar Vale Chess 3D Career</h2>
-      <div id="onboardingSteps" class="onboarding-steps">
-        <div class="onboarding-step active" data-step="0"><strong>1. Perfil e país</strong><span>Escolha avatar, nome e país. O país define seus torneios nacionais, seu continente e sua primeira rota de carreira.</span></div>
-        <div class="onboarding-step" data-step="1"><strong>2. Carreira</strong><span>No Single Player, vença rodadas, some pontos, suba no ranking nacional, continental e mundial.</span></div>
-        <div class="onboarding-step" data-step="2"><strong>3. Controles</strong><span>Toque curto seleciona a peça e depois toque na casa de destino. Arrastar gira a câmera 3D.</span></div>
-        <div class="onboarding-step" data-step="3"><strong>4. Xeque e final</strong><span>O HUD sinaliza xeque, xeque-mate, empate, vitória e derrota. Ao final você recebe rating, moedas e reputação.</span></div>
-      </div>
-      <div class="onboarding-progress"><span id="onboardingProgressFill"></span></div>
-      <div class="row-actions onboarding-actions">
-        <button id="prevOnboardingBtn" class="secondary" type="button">Anterior</button>
-        <button id="nextOnboardingBtn" class="primary" type="button">Próximo</button>
-      </div>
-    </div>
   </div>
 
   <main id="app" class="app">
@@ -66,7 +34,6 @@
         <div class="actions row-actions">
           <button id="newGameBtn" class="primary">Novo jogo</button>
           <button id="continueBtn" class="secondary">Continuar</button>
-          <button id="tutorialCoverBtn" class="ghost">Tutorial</button>
         </div>
       </div>
     </section>
@@ -118,9 +85,7 @@
         <aside class="side-panel glass">
           <div id="playerCard" class="player-card"></div>
           <button id="careerBtn" class="primary wide">Modo carreira</button>
-          <button class="secondary wide" onclick="openEconomyShop()">Loja e treino</button>
           <button id="quickMatchBtn" class="secondary wide">Partida rápida</button>
-          <button id="tutorialLobbyBtn" class="secondary wide">Tutorial</button>
           <button id="resetSaveBtn" class="danger wide">Reiniciar perfil</button>
         </aside>
         <section class="main-panel glass">
@@ -137,26 +102,6 @@
       <div class="career-shell">
         <div class="section-title glass"><button class="ghost" data-go="lobbyScreen">← Lobby</button><div><span class="brand-kicker">CARREIRA SINGLE PLAYER</span><h2>Calendário de competições</h2></div></div>
         <div id="tournamentGrid" class="tournament-grid"></div>
-      </div>
-    </section>
-
-
-    <section id="economyScreen" class="screen bg-career">
-      <div class="section-shell">
-        <div class="section-title glass"><button class="ghost" data-go="lobbyScreen">← Lobby</button><div><span class="brand-kicker">ECONOMIA v0.9 RC</span><h2>Loja simples e progressão de treino</h2></div></div>
-        <div class="main-panel glass">
-          <p>Ganhe moedas em partidas e campeonatos. Invista em treinos para melhorar recompensas, proteger rating e preparar a carreira para sistemas futuros.</p>
-          <div class="wallet-grid">
-            <div class="wallet-stat"><strong id="walletMoney">0</strong>Moedas</div>
-            <div class="wallet-stat"><strong id="walletRep">0</strong>Reputação</div>
-            <div class="wallet-stat"><strong id="walletLevel">0</strong>Nível econômico</div>
-          </div>
-          <div id="walletBonus" class="notice">Nenhum bônus ativo ainda</div>
-          <div id="economyNotice" class="economy-notice"></div>
-          <div id="shopGrid" class="shop-grid"></div>
-          <div class="economy-history"><strong>Histórico recente</strong><div id="shopHistory"></div></div>
-          <div class="row-actions"><button data-go="careerScreen" class="primary">Voltar à carreira</button><button data-go="lobbyScreen" class="secondary">Lobby</button></div>
-        </div>
       </div>
     </section>
 
@@ -191,23 +136,12 @@
     </section>
 
     <section id="resultScreen" class="screen result-screen bg-victory">
-      <div class="result-panel glass premium-result-panel">
-        <div class="result-hero">
-          <img id="resultTrophy" class="trophy trophy-premium" src="assets/competitions/trophies/amateur_trophy.png" alt="Troféu" onerror="this.style.display='none'" />
-          <div>
-            <span class="brand-kicker">RESULTADO DA PARTIDA</span>
-            <h2 id="resultTitle">Vitória</h2>
-            <p id="resultSubtitle" class="result-subtitle">Resumo da partida</p>
-          </div>
-        </div>
-        <p id="resultText" class="result-main-text"></p>
-        <div id="resultRewardGrid" class="result-reward-grid"></div>
-        <div id="resultSeasonBox" class="result-season-box"></div>
-        <div class="row-actions result-actions">
-          <button id="nextCareerMatchBtn" class="primary">Próxima partida</button>
-          <button data-go="careerScreen" class="secondary">Voltar à carreira</button>
-          <button data-go="lobbyScreen" class="secondary">Lobby</button>
-        </div>
+      <div class="result-panel glass">
+        <img id="resultTrophy" class="trophy" src="assets/competitions/trophies/amateur_trophy.png" alt="Troféu" onerror="this.style.display='none'" />
+        <span class="brand-kicker">RESULTADO</span>
+        <h2 id="resultTitle">Vitória</h2>
+        <p id="resultText"></p>
+        <div class="row-actions"><button data-go="careerScreen" class="primary">Voltar à carreira</button><button data-go="lobbyScreen" class="secondary">Lobby</button></div>
       </div>
     </section>
   </main>
@@ -215,6 +149,6 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
   <script src="assets/chess-local.js"></script>
   <script src="firebaseConfig.js"></script>
-  <script src="script-v090.js?v=20260506-2145"></script>
+  <script src="script-v036.js?v=20260506-1615"></script>
 </body>
 </html>

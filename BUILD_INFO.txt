@@ -1,0 +1,3 @@
+Vale Chess 3D Career
+Build v0.9.0 - 2026-05-06 21:45 BRT
+Release Candidate / QA final antes da v1.0.0
