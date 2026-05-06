@@ -1,8 +1,0 @@
-Build v0.7.0 - IA com personalidade e rivais
-
-1. Build visivel atualizada para v0.7.0 - 2026-05-06 20:25 BRT.
-2. Arquivos cache-busted: script-v070.js e style-v070.css.
-3. Adicionado sistema de personalidades de IA.
-4. Adicionados rivais recorrentes por campeonato.
-5. Cards e tela de VS mostram badges de rival e estilo da IA.
-6. Mantido o nucleo de partida, tutorial, mobile polish, tela final e protocolo anti-quebra.
