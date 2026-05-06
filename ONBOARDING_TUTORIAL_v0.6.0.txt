@@ -1,9 +1,0 @@
-Vale Chess 3D Career - Build v0.6.0
-
-Fase: Tutorial e onboarding completo.
-
-1. Build visivel no topo: Build v0.6.0 - 2026-05-06 19:55 BRT.
-2. Adicionado overlay de tutorial com 4 passos: perfil/pais, carreira, controles e final de partida.
-3. Botao Tutorial na capa e no lobby.
-4. Tutorial aparece uma vez apos criacao do perfil, salvo em localStorage.
-5. Mantido nucleo da partida, ranking, temporada, tela final premium, mobile polish e feedback sensorial.
