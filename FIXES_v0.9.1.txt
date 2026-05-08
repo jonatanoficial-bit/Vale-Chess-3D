@@ -1,0 +1,8 @@
+Vale Chess 3D Career - Build v0.9.1
+
+Correcoes:
+1. Corrigido fluxo de clique/toque para iniciar campeonato no modo carreira.
+2. Adicionado botao visual Iniciar/Continuar campeonato nos cards.
+3. Adicionado fallback caso a temporada falhe ao iniciar.
+4. Corrigido corte de topo/baixo e rolagem nas telas mobile, principalmente lobby e carreira.
+5. Mantido gameScreen sem rolagem para preservar toque/arraste do tabuleiro 3D.
