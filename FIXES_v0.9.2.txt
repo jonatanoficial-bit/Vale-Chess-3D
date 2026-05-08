@@ -1,0 +1,9 @@
+Vale Chess 3D Career - Build v0.9.2
+
+Hotfix critico:
+1. Declarado aiMoveTimer, que causava erro recuperado ao tentar iniciar Partida rapida e campeonatos.
+2. Criado safeStartMatch para iniciar partidas com fallback seguro.
+3. Partida rapida agora chama startQuickMatch com protecao anti-quebra.
+4. Campeonato agora usa fallback real se startSeasonRound falhar.
+5. Cards de torneio agora aceitam click, touchend e pointerup com trava contra duplo toque.
+6. Ajustes extras de rolagem/corte no mobile para lobby e carreira.

@@ -1,2 +1,2 @@
 Vale Chess 3D Career
-Build v0.9.1 - 2026-05-07 09:05 BRT
+Build v0.9.2 - 2026-05-08 22:38 BRT
