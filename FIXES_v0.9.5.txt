@@ -1,0 +1,9 @@
+Vale Chess 3D Career - v0.9.5
+
+Fase Final 1 concluida: Mobile Polish.
+- Polimento final mobile em landscape e portrait.
+- Toque mais preciso no tabuleiro: margem maior antes de iniciar giro de camera.
+- HUD mais compacto em telas baixas.
+- Board-wrap com resposta visual sutil ao toque.
+- Redimensionamento automatico apos mudanca de tela/orientacao.
+- Build, data e hora visiveis no jogo.

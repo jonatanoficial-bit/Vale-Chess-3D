@@ -1,3 +1,2 @@
-Vale Chess 3D Career
-Build v0.9.4 - 2026-05-14 10:20 BRT
-Fase Final 1: Competitive HUD
+Build v0.9.5 - 2026-05-14 10:08 BRT
+Fase Final 1: Mobile Polish final.
