@@ -1,0 +1,14 @@
+Vale Chess 3D Career - Build v0.9.3 REFEITO
+
+Data/hora visivel no jogo: Build v0.9.3 - 2026-05-13 22:45 BRT
+
+Base usada: v0.9.2 funcional.
+
+Correcoes e melhorias:
+1. ZIP refeito para corrigir falha de download/link anterior.
+2. Cache busting novo em index.html: style-v093.css e script-v093.js.
+3. Mantido hotfix da v0.9.2 para Partida rapida e campeonato.
+4. Tabuleiro 3D maior no mobile/landscape.
+5. HUD da partida mais compacto em telas pequenas.
+6. gameScreen forcado como grid ativo para evitar layout quebrado.
+7. QA de build visivel atualizado para usar BUILD.version.
