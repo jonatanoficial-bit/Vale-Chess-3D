@@ -1,0 +1,9 @@
+Build v0.9.4 - Competitive HUD
+
+- HUD recolhivel durante partida.
+- Botao flutuante HUD para abrir/fechar painel da partida.
+- Historico de jogadas minimizavel.
+- Overlay compacto sobre o tabuleiro com turno e partida.
+- Melhor aproveitamento da tela no mobile e landscape.
+- Mantida a base funcional da v0.9.3 refeita.
+- Build, data e hora visiveis dentro do jogo.
